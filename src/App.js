@@ -50,11 +50,11 @@ class ImageHolder extends Component {
   }
 
   render() {
-    let borderColor = this.state.checked ? '#000000' : '#FFFFFF'
+    let cssClass = this.state.checked ? 'image-holder-selected' : 'image-holder-unselected'
     return (
-      <div style={{display : 'inline'}}>
-      <img onClick={this.onHandleImageClick} style={{ borderColor: borderColor , borderWidth : '5px', borderStyle: 'solid', height : 60, width : 60, marginLeft : 30, marginTop : 10}} src={this.state.url}/>
-      </div>
+      <span>
+        <img class={cssClass} onClick={this.onHandleImageClick} src={this.state.url}/>
+      </span>
     )
   }
 }
@@ -79,7 +79,7 @@ class ImageHolderList extends Component {
   render() {
     console.log(this.state.checked)
     return (
-      <div>
+      <div class="inline-block">
       {this.state.urls.map(url => (<ImageHolder key={url} url={url} checked={this.state.checked}></ImageHolder>))}
       </div>
     )
@@ -110,8 +110,17 @@ class NSFWCategory extends Component {
     return (
       <div>
         <h2>{this.state.name}</h2>
-        <input type="checkbox" checked={this.state.checked} onChange={this.handleCheckboxChange}/> select all
-        <ImageHolderList urls={this.state.urls || []} checked={this.state.checked}></ImageHolderList>
+        <div>
+          <input type="checkbox" checked={this.state.checked} onChange={this.handleCheckboxChange}/> select all
+        </div>
+        <div>
+          <ImageHolderList urls={this.state.urls || []} checked={this.state.checked}></ImageHolderList>
+          <div class="inline-block">
+            <button class="upload-button">
+              Upload
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
@@ -122,7 +131,6 @@ class App extends Component {
     return (
       <div style={{marginLeft : 30}}>
         {data.map(cat => (<NSFWCategory key={cat["title"]} name={cat["title"]} urls={cat["urls"]}></NSFWCategory>))}
-        <div style={{marginTop: 30}}><button style={{height: 45, width: 80, background: '#546fff', color: '#ffffff', fontSize: 14}}>Upload</button></div>
       </div>
     );
   }

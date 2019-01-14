@@ -30,3 +30,42 @@
     transform: rotate(360deg);
   }
 }
+
+.inline {
+  display: inline;
+}
+
+.inline-block {
+  display: inline;
+}
+
+.image-holder-unselected {
+  border-color: #ffffff;
+  border-width : 5px;
+  border-style: solid;
+  height : 60px;
+  width : 60px;
+  margin-left : 30px;
+  margin-top : 10px;
+}
+
+.image-holder-selected {
+  border-color: #000000;
+  border-width : 5px;
+  border-style: solid;
+  height : 60px;
+  width : 60px;
+  margin-left : 30px;
+  margin-top : 10px;
+}
+
+.upload-button {
+  vertical-align: bottom;
+  height: 45px;
+  width: 80px;
+  border-width: 5px;
+  background: #546fff;
+  color: #ffffff;
+  border-color: #ffffff;
+  font-size: 14px;
+}
