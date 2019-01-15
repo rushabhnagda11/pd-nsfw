@@ -24,29 +24,26 @@ export function generateS3FileName(index, suffix) {
 }
 
 const MAX_IMAGE_INDEX_PORN = 182;
-const MAX_IMAGE_INDEX_ANIMATED_PORN = 39;
-const MAX_IMAGE_INDEX_EXPLICIT_NUDITY = 74;
-const MAX_IMAGE_INDEX_GORE = 45;
-const MAX_IMAGE_INDEX_SUGGESTIVE_NUDITY = 5;
+const MAX_IMAGE_INDEX_ANIMATED_PORN = 161;
+const MAX_IMAGE_INDEX_EXPLICIT_NUDITY = 104;
+const MAX_IMAGE_INDEX_GORE = 96;
+const MAX_IMAGE_INDEX_SUGGESTIVE_NUDITY = 118;
 const MAX_IMAGE_INDEX_SFW = 285;
 
 const data = [
   {
-    "urls" : ["blob:http://localhost:3000/1e0619a6-2d12-456e-a63a-a4a13abd810c","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3"],
-    "image_indexes": [...Array(MAX_IMAGE_INDEX_PORN).keys()].map(num => generateS3FileName(num, "_porn.jpg")),
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_PORN).keys()].map(num => generateS3FileName(num, "_porn.jpeg")),
     "image_folder": "uploadedfiles/nsfw_data/nsfw/porn/",
     "title" : "Porn",
     "checked": true
   },
   {
-    "urls" : ["1","2","3","1","2","3"],
     "image_indexes": [...Array(MAX_IMAGE_INDEX_EXPLICIT_NUDITY).keys()].map(num => generateS3FileName(num, "_en.jpeg")),
     "image_folder": "uploadedfiles/nsfw_data/nsfw/explicit_nudity/",
     "title" : "Explicit Nudity",
     "checked": true
   },
   {
-    "urls" : ["1","2","3","1","2","3"],
     "image_indexes": [...Array(MAX_IMAGE_INDEX_ANIMATED_PORN).keys()].map(num => generateS3FileName(num, "_ap.jpeg")),
     "image_folder": "uploadedfiles/nsfw_data/nsfw/animated_porn/",
     "title" : "Animated Porn",
@@ -54,7 +51,6 @@ const data = [
     
   },
   {
-    "urls" : ["1","2","3","1","2","3"],
     "image_indexes": [...Array(MAX_IMAGE_INDEX_GORE).keys()].map(num => generateS3FileName(num, "_gore.jpeg")),
     "image_folder": "uploadedfiles/nsfw_data/nsfw/gore/",
     "title" : "Gore",
@@ -62,14 +58,12 @@ const data = [
 
   },
   {
-    "urls" : ["1","2","3","1","2","3"],
     "image_indexes": [...Array(MAX_IMAGE_INDEX_SUGGESTIVE_NUDITY).keys()].map(num => generateS3FileName(num, "_sn.jpeg")),
     "image_folder": "uploadedfiles/nsfw_data/nsfw/suggestive_nudity/",
     "title" : "Suggestive Nudity",
     "checked": false
   },
   {
-    "urls" : ["1","2","3","1","2","3"],
     "image_indexes": [...Array(MAX_IMAGE_INDEX_SFW).keys()].map(num => generateS3FileName(num, "_sfw.jpeg")),
     "image_folder": "uploadedfiles/nsfw_data/sfw/",
     "title" : "Safe for Work",
