@@ -2,32 +2,77 @@ import React, { Component } from 'react';
 import './App.css';
 import Switch from "react-switch";
 
+
+export function fileNameToS3(name) {
+  return (
+    'https://' +
+    ('https://s3-us-west-2.amazonaws.com/nanonets/' + name)
+      .replace(/^https:\/\//, '')
+      .replace(/\/+/g, '/')
+      .replace(/\/+$/, '')
+  );
+}
+
+export function generateS3UrlsFromDict(data) {
+  let base_image_folder = data["image_folder"];
+  let image_urls = data["image_indexes"].map(name => fileNameToS3(base_image_folder + name));
+  return image_urls;
+}
+
+export function generateS3FileName(index, suffix) {
+  return (index + 1) + suffix;
+}
+
+const MAX_IMAGE_INDEX_PORN = 182;
+const MAX_IMAGE_INDEX_ANIMATED_PORN = 39;
+const MAX_IMAGE_INDEX_EXPLICIT_NUDITY = 74;
+const MAX_IMAGE_INDEX_GORE = 45;
+const MAX_IMAGE_INDEX_SUGGESTIVE_NUDITY = 5;
+const MAX_IMAGE_INDEX_SFW = 285;
+
 const data = [
   {
     "urls" : ["blob:http://localhost:3000/1e0619a6-2d12-456e-a63a-a4a13abd810c","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3"],
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_PORN).keys()].map(num => generateS3FileName(num, "_porn.jpg")),
+    "image_folder": "uploadedfiles/nsfw_data/nsfw/porn/",
     "title" : "Porn",
     "checked": true
   },
   {
     "urls" : ["1","2","3","1","2","3"],
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_EXPLICIT_NUDITY).keys()].map(num => generateS3FileName(num, "_en.jpeg")),
+    "image_folder": "uploadedfiles/nsfw_data/nsfw/explicit_nudity/",
     "title" : "Explicit Nudity",
     "checked": true
   },
   {
     "urls" : ["1","2","3","1","2","3"],
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_ANIMATED_PORN).keys()].map(num => generateS3FileName(num, "_ap.jpeg")),
+    "image_folder": "uploadedfiles/nsfw_data/nsfw/animated_porn/",
     "title" : "Animated Porn",
     "checked": true
     
   },
   {
     "urls" : ["1","2","3","1","2","3"],
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_GORE).keys()].map(num => generateS3FileName(num, "_gore.jpeg")),
+    "image_folder": "uploadedfiles/nsfw_data/nsfw/gore/",
     "title" : "Gore",
-    "checked": false
+    "checked": true
 
   },
   {
     "urls" : ["1","2","3","1","2","3"],
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_SUGGESTIVE_NUDITY).keys()].map(num => generateS3FileName(num, "_sn.jpeg")),
+    "image_folder": "uploadedfiles/nsfw_data/nsfw/suggestive_nudity/",
     "title" : "Suggestive Nudity",
+    "checked": false
+  },
+  {
+    "urls" : ["1","2","3","1","2","3"],
+    "image_indexes": [...Array(MAX_IMAGE_INDEX_SFW).keys()].map(num => generateS3FileName(num, "_sfw.jpeg")),
+    "image_folder": "uploadedfiles/nsfw_data/sfw/",
+    "title" : "Safe for Work",
     "checked": false
   }
 ]
@@ -37,7 +82,7 @@ class ImageHolder extends Component {
     super(props)
     this.state = {
       url: this.props.url,
-      checked: this.props.checked
+      checked: this.props.checked,
     }
     this.onHandleImageClick = this.onHandleImageClick.bind(this)
     this.onHandleImageError = this.onHandleImageError.bind(this)
@@ -59,15 +104,21 @@ class ImageHolder extends Component {
 
   onHandleImageError() {
     this.setState({
-      url: 'https://mycyberuniverse.com/images/thumbnail/error.png'
+      url: 'https://mycyberuniverse.com/images/thumbnail/error.png',
     })
   }
 
   render() {
     let cssClass = this.state.checked ? 'image-holder-selected' : 'image-holder-unselected'
+
     return (
       <span>
-        <img className={cssClass} onClick={this.onHandleImageClick} src={this.state.url} onError={this.onHandleImageError}/>
+        <img
+          className={cssClass}
+          onClick={this.onHandleImageClick}
+          src={this.state.url}
+          onError={this.onHandleImageError}
+        />
       </span>
     )
   }
@@ -99,7 +150,9 @@ class ImageHolderList extends Component {
   render() {
     return (
       <div ref={el => {this.el = el}} style={{ borderStyle:'solid', borderColor:'#d3d3d3', maxWidth: 800, maxHeight:300, overflowY:'auto', overflowX:'auto', marginTop: 20}}>
-      {this.state.urls.map((url,i) => (<ImageHolder key={i} url={url} checked={this.state.checked}></ImageHolder>))}
+        {this.state.urls.map(
+          (url,i) => (<ImageHolder key={i} url={url} checked={this.state.checked}></ImageHolder>))
+        }
       </div>
     )
   }
@@ -159,9 +212,22 @@ class NSFWCategory extends Component {
 
 class App extends Component {
   render() {
+    console.log(data);
     return (
       <div style={{marginLeft : 30}}>
-        {data.map(cat => (<NSFWCategory key={cat["title"]} checked={cat["checked"]} name={cat["title"]} urls={cat["urls"]}></NSFWCategory>))}
+        {
+          data.map(
+            cat => (
+              <NSFWCategory
+                key={cat["title"]}
+                checked={cat["checked"]}
+                name={cat["title"]}
+                urls={generateS3UrlsFromDict(cat)}
+              >
+              </NSFWCategory>
+            )
+          )
+        }
       </div>
     );
   }
