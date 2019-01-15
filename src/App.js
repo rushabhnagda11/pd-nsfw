@@ -5,23 +5,29 @@ const data = [
   {
     "urls" : ["blob:http://localhost:3000/1e0619a6-2d12-456e-a63a-a4a13abd810c","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3","1","2","3"],
     "title" : "Porn",
+    "checked": true
   },
   {
     "urls" : ["1","2","3","1","2","3"],
     "title" : "Explicit Nudity",
+    "checked": true
   },
   {
     "urls" : ["1","2","3","1","2","3"],
     "title" : "Animated Porn",
+    "checked": true
+    
   },
   {
     "urls" : ["1","2","3","1","2","3"],
     "title" : "Gore",
+    "checked": false
 
   },
   {
     "urls" : ["1","2","3","1","2","3"],
     "title" : "Suggestive Nudity",
+    "checked": false
   }
 ]
 
@@ -105,7 +111,7 @@ class NSFWCategory extends Component {
     this.state = {
       name : this.props.name,
       urls: this.props.urls,
-      checked: false,
+      checked: this.props.checked,
     }
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
     this.handleFileUpload = this.handleFileUpload.bind(this)
@@ -131,7 +137,8 @@ class NSFWCategory extends Component {
       <div>
         <h2>{this.state.name}</h2>
         <div>
-          <input type="checkbox" checked={this.state.checked} onChange={this.handleCheckboxChange}/> select all
+          <input type="checkbox" checked={this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as NSFW
+          <input style={{marginLeft:20}} type="checkbox" checked={!this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as SFW
         </div>
         <div>
           <ImageHolderList urls={this.state.urls || []} checked={this.state.checked}></ImageHolderList>
@@ -150,7 +157,7 @@ class App extends Component {
   render() {
     return (
       <div style={{marginLeft : 30}}>
-        {data.map(cat => (<NSFWCategory key={cat["title"]} name={cat["title"]} urls={cat["urls"]}></NSFWCategory>))}
+        {data.map(cat => (<NSFWCategory key={cat["title"]} checked={cat["checked"]} name={cat["title"]} urls={cat["urls"]}></NSFWCategory>))}
       </div>
     );
   }

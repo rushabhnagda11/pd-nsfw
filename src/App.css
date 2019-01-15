@@ -32,7 +32,7 @@
 }
 
 .image-holder-unselected {
-  border-color: #ffffff;
+  border-color: #55df50;
   border-width : 5px;
   border-style: solid;
   height : 60px;
@@ -42,7 +42,7 @@
 }
 
 .image-holder-selected {
-  border-color: #000000;
+  border-color: #cf4545;
   border-width : 5px;
   border-style: solid;
   height : 60px;
