@@ -3,7 +3,7 @@ import './App.css';
 
 const data = [
   {
-    "urls" : ["1","2","3","1","2","3"],
+    "urls" : ["blob:http://localhost:3000/1e0619a6-2d12-456e-a63a-a4a13abd810c","2","3","1","2","3"],
     "title" : "Porn",
   },
   {
@@ -33,6 +33,7 @@ class ImageHolder extends Component {
       checked: this.props.checked
     }
     this.onHandleImageClick = this.onHandleImageClick.bind(this)
+    this.onHandleImageError = this.onHandleImageError.bind(this)
   }
 
   componentDidUpdate(prevProps) {
@@ -49,11 +50,17 @@ class ImageHolder extends Component {
     })
   }
 
+  onHandleImageError() {
+    this.setState({
+      url: 'https://mycyberuniverse.com/images/thumbnail/error.png'
+    })
+  }
+
   render() {
     let cssClass = this.state.checked ? 'image-holder-selected' : 'image-holder-unselected'
     return (
       <span>
-        <img class={cssClass} onClick={this.onHandleImageClick} src={this.state.url}/>
+        <img class={cssClass} onClick={this.onHandleImageClick} src={this.state.url} onError={this.onHandleImageError}/>
       </span>
     )
   }
@@ -77,9 +84,8 @@ class ImageHolderList extends Component {
   }
 
   render() {
-    console.log(this.state.checked)
     return (
-      <div class="inline-block">
+      <div style={{display: "inline"}}>
       {this.state.urls.map(url => (<ImageHolder key={url} url={url} checked={this.state.checked}></ImageHolder>))}
       </div>
     )
@@ -96,6 +102,7 @@ class NSFWCategory extends Component {
       checked: false,
     }
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+    this.handleFileUpload = this.handleFileUpload.bind(this)
   } 
   handleCheckboxChange(e) {
     let checked = !this.state.checked
@@ -105,8 +112,15 @@ class NSFWCategory extends Component {
     
   }
 
+  handleFileUpload(e) {
+    let urls = this.state.urls
+    urls.push(URL.createObjectURL(e.target.files[0]))
+    this.setState({
+      urls: urls
+    })
+  }
+
   render() {
-    console.log(this.state.checked)
     return (
       <div>
         <h2>{this.state.name}</h2>
@@ -115,10 +129,10 @@ class NSFWCategory extends Component {
         </div>
         <div>
           <ImageHolderList urls={this.state.urls || []} checked={this.state.checked}></ImageHolderList>
-          <div class="inline-block">
-            <button class="upload-button">
-              Upload
-            </button>
+
+          <div class="upload-btn-wrapper">
+            <button class="btn">Upload</button>
+            <input type="file" name="myfile" onChange={this.handleFileUpload}/>
           </div>
         </div>
       </div>
