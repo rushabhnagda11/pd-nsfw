@@ -140,6 +140,7 @@ class NSFWCategory extends Component {
           <input type="checkbox" checked={this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as NSFW
           <input style={{marginLeft:20}} type="checkbox" checked={!this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as SFW
         </div>
+        <div style={{fontSize: 14, marginTop: 5}}><i >(toggle individual images by clicking on them)</i></div>
         <div>
           <ImageHolderList urls={this.state.urls || []} checked={this.state.checked}></ImageHolderList>
 
