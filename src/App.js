@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Switch from "react-switch";
 
 const data = [
   {
@@ -136,9 +137,11 @@ class NSFWCategory extends Component {
     return (
       <div>
         <h2>{this.state.name}</h2>
-        <div>
-          <input type="checkbox" checked={this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as NSFW
-          <input style={{marginLeft:20}} type="checkbox" checked={!this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as SFW
+        <div style={{display: 'flex', alignItems:'center'}}>
+
+        <span style={{display:'inline-block', marginRight: 10}}>Mark all as NSFW</span>
+        <Switch onChange={this.handleCheckboxChange} checked={this.state.checked} checkedIcon={false} uncheckedIcon={false} onColor='#cf4545' id="normal-switch"/>
+        {/* <input style={{marginLeft:20}} type="checkbox" checked={!this.state.checked} onChange={this.handleCheckboxChange}/> Mark all as NSFW */}
         </div>
         <div style={{fontSize: 14, marginTop: 5}}><i >(toggle individual images by clicking on them)</i></div>
         <div>
